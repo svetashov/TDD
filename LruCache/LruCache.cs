@@ -27,13 +27,22 @@ namespace LruCache
             }
             set
             {
-                throw new System.NotImplementedException();
+                _nodesDict[key].Value.Value = value;
             }
         }
 
         public V Add(K key, V value)
         {
-            throw new System.NotImplementedException();
+            var node = _priorityList.AddFirst(new LruCacheNode<K, V>(key, value));
+            _nodesDict.Add(key, node);
+
+            if (_priorityList.Count > _maxSize)
+            {
+                _nodesDict.Remove(_priorityList.Last.Value.Key);
+                _priorityList.RemoveLast();
+            }
+
+            return value;
         }
 
         public bool Contains(K key)
@@ -43,7 +52,7 @@ namespace LruCache
 
         public int Count()
         {
-            throw new System.NotImplementedException();
+            return _priorityList.Count;
         }
     }
 }
