@@ -47,7 +47,7 @@ namespace LruCache
 
         public bool Contains(K key)
         {
-            throw new System.NotImplementedException();
+            return _nodesDict.ContainsKey(key);
         }
 
         public int Count()
