@@ -23,11 +23,23 @@ namespace LruCache
                 {
                     throw new CacheEmptyException();
                 }
+                if (!Contains(key))
+                {
+                    throw new KeyNotFoundException($"Key={key} not found in cache");
+                }
+
                 return ActualizeNode(key).Value;
             }
             set
             {
-                ActualizeNode(key).Value = value;
+                if (!Contains(key))
+                {
+                    Add(key, value);
+                }
+                else
+                {
+                    ActualizeNode(key).Value = value;
+                }
             }
         }
 
