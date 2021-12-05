@@ -71,5 +71,18 @@ namespace Tests
             Assert.AreEqual(3, count);
             Assert.IsFalse(contains4);
         }
+
+        [TestMethod]
+        public void ElementNotExists_GetElement_ThrowsKeyNotFoundException()
+        {
+            ILruCache<int, int> squareRoots = new LruCache<int, int>(3);
+            squareRoots.Add(1, 1);
+            squareRoots.Add(4, 2);
+
+            var contains9 = squareRoots.Contains(9);
+
+            Assert.IsFalse(contains9);
+            Assert.ThrowsException<KeyNotFoundException>(() => squareRoots[9]);
+        }
     }
 }
