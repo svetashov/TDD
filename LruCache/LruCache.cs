@@ -23,11 +23,11 @@ namespace LruCache
                 {
                     throw new CacheEmptyException();
                 }
-                return _nodesDict[key].Value.Value;
+                return ActualizeNode(key).Value;
             }
             set
             {
-                _nodesDict[key].Value.Value = value;
+                ActualizeNode(key).Value = value;
             }
         }
 
@@ -53,6 +53,18 @@ namespace LruCache
         public int Count()
         {
             return _priorityList.Count;
+        }
+
+        private LruCacheNode<K, V> ActualizeNode(K key)
+        {
+            var node = _nodesDict[key];
+            if (_priorityList.First != node)
+            {
+                _priorityList.Remove(node);
+                _priorityList.AddFirst(node);
+            }
+
+            return node.Value;
         }
     }
 }

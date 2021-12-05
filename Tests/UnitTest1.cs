@@ -49,5 +49,27 @@ namespace Tests
             Assert.AreEqual(3, count);
             Assert.IsFalse(contains1);
         }
+
+        [TestMethod]
+        public void FullCache_GetFirstThenAdd_RemovedSecondAdded()
+        {
+            ILruCache<int, int> squareRoots = new LruCache<int, int>(3);
+            squareRoots.Add(1, 1);
+            squareRoots.Add(4, 2);
+            squareRoots.Add(9, 3);
+
+            int root1 = squareRoots[1];
+            squareRoots.Add(16, 4);
+            int root16 = squareRoots[16];
+            int root9 = squareRoots[9];
+            int count = squareRoots.Count();
+            bool contains4 = squareRoots.Contains(4);
+
+            Assert.AreEqual(4, root16);
+            Assert.AreEqual(3, root9);
+            Assert.AreEqual(1, root1);
+            Assert.AreEqual(3, count);
+            Assert.IsFalse(contains4);
+        }
     }
 }
