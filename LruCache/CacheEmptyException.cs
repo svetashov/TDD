@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Tests
+namespace LruCache
 {
     public class CacheEmptyException : Exception
     {

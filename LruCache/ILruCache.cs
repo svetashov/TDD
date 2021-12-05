@@ -1,4 +1,4 @@
-﻿namespace Tests
+﻿namespace LruCache
 {
     public interface ILruCache<K, V>
     {
