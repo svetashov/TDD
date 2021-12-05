@@ -1,13 +1,35 @@
-﻿namespace LruCache
+﻿using System.Collections.Generic;
+
+namespace LruCache
 {
     public class LruCache<K, V> : ILruCache<K, V>
-    { 
-        public LruCache(int v)
+    {
+        private readonly int _maxSize;
+        private readonly Dictionary<K, LinkedListNode<LruCacheNode<K, V>>> _nodesDict;
+        private readonly LinkedList<LruCacheNode<K, V>> _priorityList;
+
+        public LruCache(int size)
         {
-            throw new System.NotImplementedException();
+            _maxSize = size;
+            _nodesDict = new Dictionary<K, LinkedListNode<LruCacheNode<K, V>>>();
+            _priorityList = new LinkedList<LruCacheNode<K, V>>();
         }
 
-        public V this[K key] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public V this[K key] 
+        { 
+            get
+            {
+                if (_priorityList.Count == 0)
+                {
+                    throw new CacheEmptyException();
+                }
+                return _nodesDict[key].Value.Value;
+            }
+            set
+            {
+                throw new System.NotImplementedException();
+            }
+        }
 
         public V Add(K key, V value)
         {
